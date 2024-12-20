@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { GlobalStyle, theme } from './lib/theme';
 import { ThemeProvider } from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { routes } from './routes/routes';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,11 +16,9 @@ root.render(
     <GlobalStyle />
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Routes>
-          {routes.map((item, i) => 
-            <Route key={i} path={item.path} element={item.component}/>
-          )}
-        </Routes>
+        <Provider store={store}>
+          <App/>
+        </Provider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
