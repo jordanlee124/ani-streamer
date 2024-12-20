@@ -31,4 +31,8 @@ export const GlobalStyle = createGlobalStyle`
   h1 {
     font-family: 'Poppins Bold';
   }
+
+  input {
+    font-family: 'Poppins Regular';
+  }
 `;
