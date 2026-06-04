@@ -1,41 +1,71 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CNResponse, CNResponseResults } from "../../types/consumeNet";
+import { MangaDexManga } from "../../types/mangaDex";
 
-
-export interface AnimeState {
-    searchResults?: CNResponse;
-    errors?: any;
-    searchIsLoading: boolean;
+interface MangaState {
+    popular: {
+        results?: MangaDexManga[];
+        isLoading: boolean;
+    };
+    search: {
+        results?: MangaDexManga[];
+        isLoading: boolean;
+    };
+    error?: string;
 }
 
-const initialState: AnimeState = {
-    searchResults: undefined,
-    errors: undefined,
-    searchIsLoading: false
-}
+const initialState: MangaState = {
+    popular: {
+        results: undefined,
+        isLoading: false,
+    },
+    search: {
+        results: undefined,
+        isLoading: false,
+    },
+    error: undefined,
+};
 
-export const animeSlice = createSlice({
-    name: 'anime',
+export const mangaSlice = createSlice({
+    name: 'manga',
     initialState,
     reducers: {
+        popularRequested: (state) => {
+            state.popular.isLoading = true;
+        },
+        popularSucceeded: (state, action: PayloadAction<MangaDexManga[]>) => {
+            state.popular.results = action.payload;
+            state.popular.isLoading = false;
+        },
+        popularFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+            state.popular.isLoading = false;
+        },
         searchRequested: (state) => {
-            state.searchIsLoading = true;
+            state.search.isLoading = true;
         },
-        searchSucceeded: (state, action: PayloadAction<CNResponse>) => {
-            state.searchResults = action.payload;
-            state.searchIsLoading = false;
+        searchSucceeded: (state, action: PayloadAction<MangaDexManga[]>) => {
+            state.search.results = action.payload;
+            state.search.isLoading = false;
         },
-        searchFailed: (state, action: PayloadAction<any>) => {
-            state.errors = action.payload;
-            state.searchIsLoading = false;
-        }
-    }
+        searchFailed: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+            state.search.isLoading = false;
+        },
+        clearSearch: (state) => {
+            state.search.results = undefined;
+            state.search.isLoading = false;
+        },
+    },
 });
 
 export const {
+    popularRequested,
+    popularSucceeded,
+    popularFailed,
     searchRequested,
     searchSucceeded,
-    searchFailed
-} = animeSlice.actions;
+    searchFailed,
+    clearSearch,
+} = mangaSlice.actions;
 
-export default animeSlice.reducer;
+export default mangaSlice.reducer;

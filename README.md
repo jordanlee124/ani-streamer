@@ -1,46 +1,57 @@
-# Getting Started with Create React App
+# Ani-Streamer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An anime streaming web app built with React and TypeScript. Pulls anime data via the [Consumet](https://github.com/consumet/consumet.ts) library using the Gogoanime provider.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Browse recently updated anime episodes
+- Search anime by title
+- Redux-based state management with async data fetching
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **React 19** + **TypeScript**
+- **Redux Toolkit** for state management
+- **React Router v7** for client-side routing
+- **Styled Components** for styling
+- **Consumet** for anime data (Gogoanime provider)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 16+
+- npm
 
-### `npm run build`
+### Install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Opens at [http://localhost:3000](http://localhost:3000).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Build
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Project Structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+src/
+├── components/       # Reusable UI components (Navbar, Card, HorizontalScroll)
+├── pages/            # Page-level components (Home)
+├── routes/           # Route definitions
+├── store/            # Redux store, slices, operations, selectors
+├── styles/           # Global colours and fonts
+├── types/            # TypeScript type definitions
+└── lib/              # Theme and global styles
+```

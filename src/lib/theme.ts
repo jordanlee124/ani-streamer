@@ -3,7 +3,7 @@ import PoppinsBold from "../styles/fonts/poppins/Poppins-Bold.ttf";
 import PoppinsRegular from "../styles/fonts/poppins/Poppins-Regular.ttf";
 
 export const theme = {
-  background: "#000000"
+  background: "#191a1c"
 };
 
 export const GlobalStyle = createGlobalStyle`
