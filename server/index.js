@@ -50,6 +50,93 @@ app.get('/api/manga/popular', async (req, res) => {
     }
 });
 
+app.get('/api/manga/tags', async (_req, res) => {
+    try {
+        const data = await mdFetch('/manga/tag', 'tags', 24 * 60 * 60 * 1000);
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/manga/advanced', async (req, res) => {
+    try {
+        const { title, status, sort, demographic, contentRating, originalLanguage, includedTags, excludedTags, includedTagsMode } = req.query;
+        const toArr = val => [].concat(val || []).filter(Boolean);
+
+        const parts = ['limit=20', 'includes[]=cover_art'];
+
+        if (title) parts.push(`title=${encodeURIComponent(title)}`);
+
+        toArr(status).forEach(s => parts.push(`status[]=${s}`));
+        toArr(demographic).forEach(d => parts.push(`publicationDemographic[]=${d}`));
+
+        const ratings = toArr(contentRating);
+        (ratings.length ? ratings : ['safe', 'suggestive']).forEach(r => parts.push(`contentRating[]=${r}`));
+
+        toArr(originalLanguage).forEach(l => parts.push(`originalLanguage[]=${l}`));
+        toArr(includedTags).forEach(t => parts.push(`includedTags[]=${t}`));
+        toArr(excludedTags).forEach(t => parts.push(`excludedTags[]=${t}`));
+
+        if (toArr(includedTags).length > 0) parts.push(`includedTagsMode=${includedTagsMode || 'AND'}`);
+        if (toArr(excludedTags).length > 0) parts.push(`excludedTagsMode=OR`);
+
+        const sortMap = {
+            latest: 'latestUploadedChapter',
+            relevance: 'relevance',
+            follows: 'followedCount',
+            rating: 'rating',
+            year: 'year',
+        };
+        parts.push(`order[${sortMap[sort] || 'latestUploadedChapter'}]=desc`);
+
+        const qs = parts.join('&');
+        const data = await mdFetch(`/manga?${qs}`, `advanced:${qs}`, TTL.search);
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/manga/recent', async (_req, res) => {
+    try {
+        const data = await mdFetch(
+            '/manga?limit=20&order[latestUploadedChapter]=desc&includes[]=cover_art&contentRating[]=safe&contentRating[]=suggestive',
+            'recent',
+            TTL.search
+        );
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/manga/toprated', async (_req, res) => {
+    try {
+        const data = await mdFetch(
+            '/manga?limit=20&order[rating]=desc&includes[]=cover_art&contentRating[]=safe&contentRating[]=suggestive',
+            'toprated',
+            TTL.popular
+        );
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/manga/new', async (_req, res) => {
+    try {
+        const data = await mdFetch(
+            '/manga?limit=20&order[createdAt]=desc&includes[]=cover_art&contentRating[]=safe&contentRating[]=suggestive',
+            'new',
+            TTL.search
+        );
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.get('/api/manga/search', async (req, res) => {
     try {
         const { q } = req.query;
@@ -58,6 +145,34 @@ app.get('/api/manga/search', async (req, res) => {
             `/manga?title=${encodeURIComponent(q)}&limit=20&includes[]=cover_art&contentRating[]=safe`,
             `search:${q.toLowerCase().trim()}`,
             TTL.search
+        );
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/chapter/:id/pages', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await mdFetch(
+            `/at-home/server/${id}`,
+            `pages:${id}`,
+            TTL.detail
+        );
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/manga/:id/chapters', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await mdFetch(
+            `/manga/${id}/feed?limit=100&translatedLanguage[]=en&order[chapter]=asc&includes[]=scanlation_group`,
+            `chapters:${id}`,
+            TTL.detail
         );
         res.json(data);
     } catch (error) {

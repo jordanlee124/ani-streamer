@@ -4,9 +4,11 @@ import searchIcon from "../../../assets/search.png";
 
 interface SearchBarProps {
     onSearch: (query: string) => void;
+    onFilter?: () => void;
+    filterActive?: boolean;
 }
 
-const SearchBar: React.FunctionComponent<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FunctionComponent<SearchBarProps> = ({ onSearch, onFilter, filterActive }) => {
     const [value, setValue] = useState("");
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -25,6 +27,11 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ onSearch }) => {
                 onChange={(e) => setValue(e.target.value)}
                 onKeyDown={handleKeyDown}
             />
+            <Styled.FilterButton active={filterActive} onClick={onFilter} aria-label="Filter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                </svg>
+            </Styled.FilterButton>
         </Styled.Container>
     );
 };

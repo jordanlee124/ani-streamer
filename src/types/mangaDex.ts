@@ -1,3 +1,17 @@
+export interface MangaDexTag {
+    id: string;
+    type: 'tag';
+    attributes: {
+        name: { en: string };
+        group: 'genre' | 'theme' | 'format' | 'content';
+    };
+}
+
+export interface MangaDexTagResponse {
+    result: 'ok' | 'error';
+    data: MangaDexTag[];
+}
+
 export interface MangaDexRelationship {
     id: string;
     type: string;
@@ -18,9 +32,41 @@ export interface MangaDexManga {
         contentRating: string;
         lastChapter: string | null;
         lastVolume: string | null;
-        tags: Array<{ id: string; attributes: { name: { en: string } } }>;
+        tags: MangaDexTag[];
     };
     relationships: MangaDexRelationship[];
+}
+
+export interface MangaDexAtHome {
+    result: 'ok' | 'error';
+    baseUrl: string;
+    chapter: {
+        hash: string;
+        data: string[];
+        dataSaver: string[];
+    };
+}
+
+export interface MangaDexChapter {
+    id: string;
+    type: 'chapter';
+    attributes: {
+        volume: string | null;
+        chapter: string | null;
+        title: string | null;
+        translatedLanguage: string;
+        pages: number;
+        publishAt: string;
+    };
+    relationships: MangaDexRelationship[];
+}
+
+export interface MangaDexChapterResponse {
+    result: 'ok' | 'error';
+    data: MangaDexChapter[];
+    limit: number;
+    offset: number;
+    total: number;
 }
 
 export interface MangaDexEntityResponse {

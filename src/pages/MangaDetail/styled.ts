@@ -79,6 +79,49 @@ export const Description = styled.p`
     overflow: hidden;
 `;
 
+export const ChaptersCell = styled.div`
+    margin-top: 1.5em;
+    background-color: ${UniversalColours.surface};
+    border-radius: 0.6em;
+    overflow: hidden;
+`;
+
+export const ChaptersCellHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 1em 0.75em;
+    border-bottom: 1px solid ${UniversalColours.border};
+`;
+
+export const ChaptersCellTitle = styled.h3`
+    font-family: 'Poppins Bold', sans-serif;
+    font-size: 0.95rem;
+    color: ${UniversalColours.textPrimary};
+    margin: 0;
+`;
+
+export const ChapterCount = styled.span`
+    font-size: 0.78rem;
+    color: ${UniversalColours.textSecondary};
+`;
+
+export const ChapterList = styled.div`
+    max-height: 28em;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: ${UniversalColours.surfaceHover};
+        border-radius: 3px;
+    }
+`;
+
 export const BackButton = styled.button`
     background: none;
     border: none;

@@ -23,6 +23,27 @@ export const SearchIcon = styled.img`
     opacity: 0.5;
 `;
 
+export const FilterButton = styled.button<{ active?: boolean }>`
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: ${({ active }) => active ? UniversalColours.accent : UniversalColours.textSecondary};
+    flex-shrink: 0;
+
+    &:hover {
+        color: ${UniversalColours.textPrimary};
+    }
+
+    svg {
+        width: 1em;
+        height: 1em;
+    }
+`;
+
 export const Input = styled.input`
     background: transparent;
     color: ${UniversalColours.textPrimary};

@@ -19,4 +19,5 @@ export const Logo = styled.img`
     height: 28px;
     width: auto;
     margin-right: 2em;
+    cursor: pointer;
 `;

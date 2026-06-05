@@ -10,9 +10,10 @@ const GAP_EM = 1.2;
 
 interface PaginatedRowProps {
     items: MangaDexManga[];
+    showRanking?: boolean;
 }
 
-const PaginatedRow: React.FunctionComponent<PaginatedRowProps> = ({ items }) => {
+const PaginatedRow: React.FunctionComponent<PaginatedRowProps> = ({ items, showRanking = false }) => {
     const navigate = useNavigate();
     const [page, setPage] = useState(0);
     const [perPage, setPerPage] = useState(5);
@@ -50,7 +51,7 @@ const PaginatedRow: React.FunctionComponent<PaginatedRowProps> = ({ items }) => 
                             key={manga.id}
                             title={getMangaTitle(manga)}
                             image={getCoverUrl(manga)}
-                            ranking={page * perPage + index + 1}
+                            ranking={showRanking ? page * perPage + index + 1 : undefined}
                             onClick={() => navigate(`/manga/${manga.id}`)}
                         />
                     ))}
